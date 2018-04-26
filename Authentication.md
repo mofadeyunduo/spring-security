@@ -34,7 +34,7 @@ setAuthenticated() 设置身份认证。拿上面的例子来说，如果 Authen
 
 类 UsernamePasswordAuthenticationToken。很简单的一个类，实现了用户名密码身份认证。
 
-在 UsernamePasswordAuthenticationToken 是这么使用该类的：
+在 UsernamePasswordAuthenticationFilter 是这么使用该类的：
 
 ```
 		UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(
@@ -46,4 +46,6 @@ setAuthenticated() 设置身份认证。拿上面的例子来说，如果 Authen
 		return this.getAuthenticationManager().authenticate(authRequest);
 ```
 
-首先实例化了 UsernamePasswordAuthenticationToken，然后设置了 Details，最后调用 AuthenticationManager 对用户输入的用户名和密码组成的身份认证信息进行身份认证。如上面所说，AuthenticationManager 包括了很多的 AuthenticationProvider，各个 AuthenticationProvider 都可以去对 AuthenticationManager 进行身份认证，如果认证成功，由于 UsernamePasswordAuthenticationToken 的 setAuthenticated(boolean isAuthenticated) 在把参数值设成 true 时会抛出异常，所以大多数情况可以重新实例化一个身份认证过的 UsernamePasswordAuthenticationToken（参见构造函数）替换当前 Authentication 实例化的对象并返回。一旦 AuthenticationManager 中的某个 AuthenticationProvider 认证成功，其余 AuthenticationProvider 就可以调用 Authentication 的 isAuthenticated() 方法发现身份认证成功，从而不再进行身份认证。
+首先实例化了 UsernamePasswordAuthenticationToken，然后设置了 Details，最后调用 AuthenticationManager 对用户输入的用户名和密码组成的身份认证信息进行身份认证。
+
+如上面所说，AuthenticationManager 包括了很多的 AuthenticationProvider，各个 AuthenticationProvider 都可以去对 AuthenticationManager 进行身份认证，如果认证成功，由于 UsernamePasswordAuthenticationToken 的 setAuthenticated(boolean isAuthenticated) 在把参数值设成 true 时会抛出异常，所以大多数情况可以重新实例化一个身份认证过的 UsernamePasswordAuthenticationToken（参见构造函数）替换当前 Authentication 实例化的对象并返回。一旦 AuthenticationManager 中的某个 AuthenticationProvider 认证成功，其余 AuthenticationProvider 就可以调用 Authentication 的 isAuthenticated() 方法发现身份认证成功，从而不再进行身份认证。
